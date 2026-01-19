@@ -1,0 +1,12 @@
+﻿  main.cpp
+C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\depdencies\include\custom\ComputeShader.h(71,55): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  (compiling source file 'main.cpp')
+  
+C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\main.cpp(128,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\main.cpp(131,44): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  Generating code
+  0 of 277 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  ComputePlayground.vcxproj -> C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\x64\Release\ComputePlayground.exe
