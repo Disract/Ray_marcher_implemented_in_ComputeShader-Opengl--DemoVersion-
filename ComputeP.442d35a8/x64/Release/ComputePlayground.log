@@ -2,10 +2,12 @@
 C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\depdencies\include\custom\ComputeShader.h(71,55): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
   (compiling source file 'main.cpp')
   
-C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\main.cpp(128,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\main.cpp(131,44): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\main.cpp(127,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\main.cpp(129,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\main.cpp(145,44): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\graphics-physics\opengl\ComputePlayground\ComputePlayground\main.cpp(146,40): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   Generating code
-  0 of 277 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  1 of 278 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

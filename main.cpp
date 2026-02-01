@@ -11,7 +11,7 @@
 
 
 //MAGIC CONSTANTS
-const unsigned int magic = 600;
+const unsigned int magic = 2000;
 const unsigned int SCR_WIDTH = magic;
 const unsigned int SCR_HEIGHT = magic;
 const unsigned int TEXTURE_WIDTH = magic;
@@ -75,7 +75,7 @@ int main()
 	GLFWwindow *window_p = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Compute", NULL, NULL);
 	if (window_p == NULL)
 	{
-		cout << "ERROR::WINDOW FAILED" << std::endl;
+		std::cout << "ERROR::WINDOW FAILED" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
@@ -87,7 +87,7 @@ int main()
 	//LOADING ALL OPENGL POINTERS
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		cout << "ERROR::FUNCTION POINTERS WEREN'T LOADED" << std::endl;
+		std::cout << "ERROR::FUNCTION POINTERS WEREN'T LOADED" << std::endl;
 		return -1;
 	}
 
@@ -113,27 +113,42 @@ int main()
 	glBindTexture(GL_TEXTURE_2D, texture);
 	int fCounter = 0;
 	float last_pos = 0;
+
+	//debug using query
+	GLuint query;
+	glGenQueries(1, &query);
+
+	glfwSetTime(0.0);
 	while (!glfwWindowShouldClose(window_p))
 	{
-		//cout << "DEBUG2" << std::endl;
 
-		//fps
-
-
-		glm::mat4 trans = glm::mat4(1.0f);
-		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
-
-		compute.use();
+		
 		
 		float target_pos = linear_interpolate(last_pos, cos(glfwGetTime()) * 5, deltaTime);
 		last_pos = target_pos;
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
 
-		compute.setFloat("t", sin(glfwGetTime()) * 10);
-		//compute.setFloat("t",sin(glfwGetTime()*0.2)*5);
-		//compute.setMatrix4f("roatation", trans);
+		// Smooth continuous motion
+		static float animTime = 0.0f;
 		
+		//compute.setFloat("t",sin(glfwGetTime()*0.2)*5);
+		
+		compute.use();
+		glm::mat4 trans = glm::mat4(1.0f);
+		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 1.0, 0.0));
+		glUniformMatrix4fv(glGetUniformLocation(compute.ID, "roatation"), 1, GL_FALSE, glm::value_ptr(trans));
+		// Correct approach in C++ render loop
+
+		std::cout << glfwGetTime() << "\n";
+		compute.setFloat("t", tan(glfwGetTime()) * 5);
+		compute.setFloat("angle", glfwGetTime());
+
+		glBeginQuery(GL_TIME_ELAPSED,query);
 		glDispatchCompute((unsigned int)TEXTURE_WIDTH / 10, (unsigned int)TEXTURE_HEIGHT / 10, 1);
-		glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
+		glEndQuery(GL_TIME_ELAPSED);
+		glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		FullQuad.use();
@@ -145,4 +160,7 @@ int main()
 		glfwPollEvents();
 		
 	}
+	GLuint64 timeElapsed;
+	glGetQueryObjectui64v(query, GL_QUERY_RESULT, &timeElapsed);
+	std::cout << timeElapsed;
 }
